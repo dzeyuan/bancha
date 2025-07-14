@@ -37,35 +37,50 @@ async function parseTable(file) {
         const reader = new FileReader();
         reader.onload = function(e) {
             try {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });     
-                if (!workbook.SheetNames.length) {
-                    handleError('Excel文件中没有找到工作表');
-                }
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                const text = e.target.result;
+                const lines = text.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line.length > 0);
                 
-                if (!jsonData.length) {
-                    handleError('工作表中没有找到数据');
+                if (lines.length === 0) {
+                    handleError('CSV文件中没有找到数据');
+                    reject('No data found');
+                    return;
                 }
-                // 提取第一列数据并过滤空值
-                const tableNames = jsonData.map(item => {
-                    const value = Object.values(item)[0];
-                    return value ? String(value).trim() : '';
+                
+                // Parse all rows for future use
+                const allData = lines.map(line => {
+                    return line.split(',').map(cell => cell.trim());
+                });
+                
+                // Extract first column data
+                const tableNames = allData.map(row => {
+                    return row.length > 0 ? row[0] : '';
                 }).filter(name => name);
+                
+                if (tableNames.length === 0) {
+                    handleError('CSV文件第一列中没有找到有效数据');
+                    reject('No valid data in first column');
+                    return;
+                }
+                
+                // Store all data in a global variable for future use
+                window.allTableData = allData;
+                
                 resolve(tableNames);
             } catch (error) {
                 handleError(error);
+                reject(error);
             }
         };
         
         reader.onerror = function() {
             const error = new Error('文件读取失败: ' + reader.error.message);
             handleError(error);
+            reject(error);
         };
         
-        reader.readAsArrayBuffer(file);
+        reader.readAsText(file);
     });
 }
 
