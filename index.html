@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名比对工具</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>这是帮助信息：上传姓名表格和图片，点击“开始比对”按钮，系统会自动比对图片中的姓名与表格数据，并显示匹配和未匹配的结果。</p>
+        </div>
+    </div>
+    <div class="navbar">
+        <img src="favicon.ico" alt="Logo" class="logo">
+        <a href="#">首页</a>
+        <a href="#" onclick="showHelpModal()">帮助</a>
+        <a href="about.html">关于我们</a>
+    </div>
+    <div class="content">
+        <h1>姓名比对工具</h1>
+    <div class="progress-steps">
+        <div class="step active" id="step1">
+            <div class="step-icon">1</div>
+            <div class="step-label">网页加载</div>
+        </div>
+        <div class="step" id="step2">
+            <div class="step-icon">2</div>
+            <div class="step-label">引擎加载</div>
+        </div>
+        <div class="step" id="step3">
+            <div class="step-icon">3</div>
+            <div class="step-label">文件上传</div>
+        </div>
+        <div class="step" id="step4">
+            <div class="step-icon">4</div>
+            <div class="step-label">识别成功</div>
+        </div>
+    </div>
+    <div class="file-upload-container">
+        <label class="file-upload-label" for="tableFile">
+            <span class="file-upload-button">选择表格文件</span>
+            <span class="file-upload-text">上传姓名表格 (CSV/Excel)</span>
+            <input type="file" id="tableFile" accept=".csv, .xlsx, .xls" class="file-upload-input">
+            <span class="file-upload-name" id="tableFileName">未选择文件</span>
+        </label>
+    </div>
+    <div class="file-upload-container">
+        <label class="file-upload-label" for="imageFile">
+            <span class="file-upload-button">选择图片文件</span>
+            <span class="file-upload-text">上传姓名图片 (JPG/PNG)</span>
+            <input type="file" id="imageFile" accept="image/jpeg, image/png" class="file-upload-input">
+            <span class="file-upload-name" id="imageFileName">未选择文件</span>
+        </label>
+    </div>
+    <button type="button" onclick="compareNames()">开始比对</button>
+    <div class="container">
+        <h3>找到的姓名：</h3>
+        <div id="foundNames"></div>
+    </div>
+    <div class="container">
+        <h3>未找到的姓名：</h3>
+        <div id="notFoundNames"></div>
+    </div>
+    </div>
+    <footer class="footer">
+        Copyright 2025 BanChaTong. All Rights Reserved.
+    </footer>
+    
+    <!-- JavaScript文件移至body底部加载并添加defer属性 -->
+    <script src="script.js" defer></script>
+    <script src="tesseract.min.js" defer></script>
+    <script src="xlsx.full.min.js" defer></script>
+    <script src="compressor.min.js" defer></script>
+</body>
+</html>

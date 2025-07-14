@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发生错误</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .error-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+        }
+        .error-title {
+            color: #721c24;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .error-message {
+            color: #721c24;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f5c6cb;
+            border-radius: 4px;
+        }
+        .redirect-message {
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1 class="error-title">啊哦~ 系统出错了</h1>
+        <div class="error-message" id="errorMessage"></div>
+        <div class="redirect-message">
+            系统将在 <span id="countdown">10</span> 秒后自动返回首页...
+        </div>
+        <div style="margin-top: 20px;">
+            <button onclick="window.location.href='index.html'" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                点击这里直接跳转首页
+            </button>
+        </div>
+        <div style="margin-top: 20px;">
+            <button onclick="window.location.href='about.html'" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                点击这里前往“关于”页面报告遇到的问题
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 获取错误信息并显示
+        const errorMessage = localStorage.getItem('errorMessage') || '未知错误';
+        document.getElementById('errorMessage').textContent = errorMessage;
+        localStorage.removeItem('errorMessage'); // 清除错误信息
+
+        // 倒计时跳转
+        let countdown = 10;
+        const countdownElement = document.getElementById('countdown');
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+    </script>
+    <footer class="footer">
+        Copyright 2025 BanChaTong. All Rights Reserved.
+    </footer>
+</body>
+</html>
