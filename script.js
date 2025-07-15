@@ -139,8 +139,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         worker = Tesseract.createWorker({
         lang: 'chi_sim',
         oem: 0, // 使用原始Tesseract引擎(支持白名单)
-        langPath: './tessdata',
-        corePath: './'
+        langPath: '/tessdata'
         });
         
         // 识别时无需重复设置白名单
